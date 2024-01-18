@@ -76,13 +76,4 @@ return [
             (bool)$settings['display_error_details'],
         );
     },
-	
-    LanguageSettingsDetectionMiddleware::class => function (ContainerInterface $container) {
-        $settings = $container->get('settings');
-
-        return new LanguageSettingsDetectionMiddleware(
-            $settings['supported_languages'],
-			      $settings['default_language'],
-        );
-    },	
 ];
