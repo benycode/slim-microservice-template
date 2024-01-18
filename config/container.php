@@ -28,7 +28,7 @@ return [
 		
         $app = AppFactory::createFromContainer($container);
 				
-		    // Register routes
+	// Register routes
         (require __DIR__ . '/routes.php')($app);
 
         // Register middleware
