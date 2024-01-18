@@ -77,7 +77,7 @@ return [
         );
     },
 	
-	  LanguageSettingsDetectionMiddleware::class => function (ContainerInterface $container) {
+    LanguageSettingsDetectionMiddleware::class => function (ContainerInterface $container) {
         $settings = $container->get('settings');
 
         return new LanguageSettingsDetectionMiddleware(
