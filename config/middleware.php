@@ -1,7 +1,6 @@
 <?php
 
 use Slim\App;
-use App\Middleware\SettingsUpMiddleware;
 use Selective\BasePath\BasePathMiddleware;
 use BenyCode\Slim\Middleware\SettingsUpMiddleware;
 
