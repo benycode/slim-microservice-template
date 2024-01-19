@@ -12,6 +12,8 @@ date_default_timezone_set('Europe/Vilnius');
 
 $settings = [];
 
+$settings['version'] = 'v0.0.0';
+
 // Error handler
 $settings['error'] = [
     // Should be set to false for the production environment
