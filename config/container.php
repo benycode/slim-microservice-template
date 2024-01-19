@@ -1,34 +1,30 @@
 <?php
 
-use App\Middleware\ExceptionMiddleware;
+use Slim\App;
 use App\Renderer;
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Psr\Log\LoggerInterface;
+use Slim\Factory\AppFactory;
+use Monolog\Handler\StreamHandler;
+use Monolog\Formatter\LineFormatter;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
+use App\Middleware\ExceptionMiddleware;
+use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
-use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UploadedFileFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerInterface;
-use Slim\App;
-use Slim\Factory\AppFactory;
-use Slim\Psr7\Factory\ServerRequestFactory;
+use BenyCode\Slim\Middleware\InfoEndpointMiddleware;
 
 return [
     // Application settings
     'settings' => fn () => require __DIR__ . '/settings.php',
-	
+
     App::class => function (ContainerInterface $container) {
-		
+
         $app = AppFactory::createFromContainer($container);
-				
-	// Register routes
+
+        // Register routes
         (require __DIR__ . '/routes.php')($app);
 
         // Register middleware
@@ -38,21 +34,13 @@ return [
     },
 
     // HTTP factories
-    ResponseFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
+    ResponseFactoryInterface::class => fn (ContainerInterface $container) => $container->get(Psr17Factory::class),
 
-    ServerRequestFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
+    ServerRequestFactoryInterface::class => fn (ContainerInterface $container) => $container->get(Psr17Factory::class),
 
-    StreamFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
+    StreamFactoryInterface::class => fn (ContainerInterface $container) => $container->get(Psr17Factory::class),
 
-    UriFactoryInterface::class => function (ContainerInterface $container) {
-        return $container->get(Psr17Factory::class);
-    },
+    UriFactoryInterface::class => fn (ContainerInterface $container) => $container->get(Psr17Factory::class),
 
     LoggerInterface::class => function (ContainerInterface $container) {
         $settings = $container->get('settings')['logger'];
@@ -74,6 +62,16 @@ return [
             $container->get(Renderer::class),
             $container->get(LoggerInterface::class),
             (bool)$settings['display_error_details'],
+        );
+    },
+
+    InfoEndpointMiddleware::class => function (ContainerInterface $container) {
+        $settings = $container
+            ->get('settings')
+        ;
+
+        return new InfoEndpointMiddleware(
+            $settings['version'],
         );
     },
 ];
