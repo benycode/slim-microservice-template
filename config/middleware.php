@@ -10,4 +10,5 @@ return function (App $app) {
     $app->addRoutingMiddleware();
     $app->add(BasePathMiddleware::class);
     $app->add(SettingsUpMiddleware::class);
+    $app->add(ExceptionMiddleware::class);
 };
