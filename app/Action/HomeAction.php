@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace App\Action\v1_0\Overview;
+namespace App\Action\v1_0\Home;
 
 use App\ActionAbstract;
 use App\ActionInterface;
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class \App\Action\v1_0\Overview\StartupAction
+ * Class \App\Action\v1_0\Home\HomeAction
  *
  * @RoutePrefix("/v1.0")
  */
