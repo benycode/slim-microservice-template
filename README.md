@@ -4,6 +4,6 @@ Idea: split an infrastructure common code to libs and have a single file princip
 
 ## Features
 
-- low infrastructure code;
-- no config files;
+- low infrastructure code duplication through microservices;
+- no config files, ENV config load;
 - annotation based.
